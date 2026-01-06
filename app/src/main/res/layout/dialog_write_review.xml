@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RatingBar
+        android:id="@+id/rb_input"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:numStars="5"
+        android:stepSize="1.0" />
+
+    <EditText
+        android:id="@+id/et_input"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:hint="请输入评价内容"
+        android:gravity="top"
+        android:background="@android:color/white"
+        android:padding="8dp"
+        android:textSize="14sp"/>
+
+</LinearLayout>

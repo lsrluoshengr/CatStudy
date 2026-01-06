@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_classical_screen">
+
+    <!-- Custom Toolbar style header -->
+    <include layout="@layout/include_toolbar"/>
+
+    <RelativeLayout
+        android:id="@+id/cover_layout"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="#000000">
+
+        <ImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_gallery" 
+            android:alpha="0.9"/>
+            
+        <!-- Overlay gradient for cinematic feel -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#20000000"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/header_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/classical_ivory">
+        
+        <TextView
+            android:id="@+id/tv_course_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Course Title"
+            style="@style/ClassicalTitleText"
+            android:textSize="22sp"/>
+            
+        <ImageView
+            android:id="@+id/iv_favorite"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/btn_star_big_off"
+            app:tint="@color/classical_gold"/>
+    </LinearLayout>
+    
+    <!-- Decorative Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/classical_border_gold"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/classical_ivory">
+
+        <TextView
+            android:id="@+id/tv_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0积分"
+            style="@style/ClassicalBodyText"
+            android:textColor="@color/classical_ochre"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_enrollment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0人已学"
+            style="@style/ClassicalBodyText"
+            android:textSize="13sp"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@color/classical_ivory"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_tab_intro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="简介"
+            android:textColor="@color/classical_ivory"
+            android:background="@drawable/bg_classical_button"
+            android:layout_marginEnd="4dp"
+            style="@style/ClassicalBodyText"/>
+
+        <Button
+            android:id="@+id/btn_tab_catalog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="目录"
+            android:textColor="@color/classical_text_primary"
+            android:background="@drawable/bg_classical_inner_border"
+            android:layout_marginEnd="4dp"
+            style="@style/ClassicalBodyText"/>
+
+        <Button
+            android:id="@+id/btn_tab_reviews"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="评价"
+            android:textColor="@color/classical_text_primary"
+            android:background="@drawable/bg_classical_inner_border"
+            style="@style/ClassicalBodyText"/>
+    </LinearLayout>
+        
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/classical_border_gold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/container_intro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="visible"
+            android:padding="16dp">
+            <TextView
+                android:id="@+id/tv_intro_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ClassicalBodyText"
+                android:textSize="16sp"
+                android:text="课程简介"/>
+        </ScrollView>
+
+        <FrameLayout
+            android:id="@+id/container_catalog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/container_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <RatingBar
+                android:id="@+id/rb_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:progressTint="@color/classical_gold"
+                android:rating="5"/>
+
+            <EditText
+                android:id="@+id/et_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="写下你的评价..."
+                android:backgroundTint="@color/classical_ochre"
+                android:textColor="@color/classical_text_primary"
+                android:layout_marginTop="8dp"/>
+
+            <Button
+                android:id="@+id/btn_submit_review"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="提交评价"
+                android:textColor="@color/classical_ivory"
+                android:background="@drawable/bg_classical_button"
+                android:layout_marginTop="8dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="16dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Bottom Action Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="@color/classical_ivory"
+        android:elevation="8dp">
+
+        <Button
+            android:id="@+id/btn_add_to_cart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="加入购物车"
+            android:textColor="@color/classical_text_primary"
+            android:background="@drawable/bg_classical_inner_border"
+            android:layout_marginEnd="8dp"
+            style="@style/ClassicalBodyText"/>
+
+        <Button
+            android:id="@+id/btn_start_learning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="开始学习"
+            android:textColor="@color/classical_ivory"
+            android:background="@drawable/bg_classical_button"
+            style="@style/ClassicalBodyText"/>
+    </LinearLayout>
+    </LinearLayout>
+

@@ -1,0 +1,43 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CatStudy" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/classical_red</item>
+        <item name="colorPrimaryVariant">@color/classical_blue</item>
+        <item name="colorOnPrimary">@color/classical_ivory</item>
+        
+        <item name="colorSecondary">@color/classical_gold</item>
+        <item name="colorSecondaryVariant">@color/classical_ochre</item>
+        <item name="colorOnSecondary">@color/classical_text_primary</item>
+        
+        <item name="android:windowBackground">@drawable/bg_classical_screen</item>
+        <item name="android:textColorPrimary">@color/classical_text_primary</item>
+        <item name="android:textColorSecondary">@color/classical_text_secondary</item>
+        
+        <!-- Typography -->
+        <item name="fontFamily">serif</item>
+        <item name="android:fontFamily">serif</item>
+    </style>
+
+    <style name="Theme.CatStudy" parent="Base.Theme.CatStudy" />
+
+    <style name="CircleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    
+    <!-- Classical Text Styles -->
+    <style name="ClassicalTitleText">
+        <item name="android:fontFamily">serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/classical_text_primary</item>
+        <item name="android:letterSpacing">0.05</item>
+    </style>
+    
+    <style name="ClassicalBodyText">
+        <item name="android:fontFamily">serif</item>
+        <item name="android:textColor">@color/classical_text_secondary</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+</resources>

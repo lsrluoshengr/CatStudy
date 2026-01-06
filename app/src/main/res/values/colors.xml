@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- Classical Art Palette -->
+    <color name="classical_red">#7B1113</color>       <!-- Venetian Red -->
+    <color name="classical_gold">#D4AF37</color>      <!-- Gold Leaf -->
+    <color name="classical_blue">#003153</color>      <!-- Prussian Blue -->
+    <color name="classical_ivory">#FFFFF0</color>     <!-- Ivory Background -->
+    <color name="classical_ochre">#CC7722</color>     <!-- Ochre -->
+    
+    <!-- Text Colors -->
+    <color name="classical_text_primary">#2F2725</color>   <!-- Dark Sepia -->
+    <color name="classical_text_secondary">#5C5552</color> <!-- Warm Grey -->
+    
+    <!-- Border Colors -->
+    <color name="classical_border_gold">#C5A028</color>
+</resources>
