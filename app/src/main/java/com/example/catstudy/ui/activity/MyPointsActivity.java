@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.catstudy.R;
+import com.example.catstudy.db.CheckInDao;
 import com.example.catstudy.db.DBHelper;
 import com.example.catstudy.db.UserDao;
 import java.text.SimpleDateFormat;
@@ -42,6 +43,7 @@ public class MyPointsActivity extends BaseActivity {
             return;
         }
 
+        CheckInDao checkInDao = new CheckInDao(this);
         UserDao userDao = new UserDao(this);
         tvTotal.setText(String.valueOf(userDao.getUser(userId).getCoins()));
 
@@ -50,41 +52,29 @@ public class MyPointsActivity extends BaseActivity {
         recycler.setAdapter(adapter);
 
         btnCheckIn.setOnClickListener(v -> {
-            if (isCheckedInToday(userId)) {
+            String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
+            if (checkInDao.isCheckedIn(userId, today)) {
                 Toast.makeText(this, "今天已签到", Toast.LENGTH_SHORT).show();
                 return;
             }
-            addCheckIn(userId, 5);
-            int coins = userDao.getUser(userId).getCoins();
-            userDao.updateCoins(userId, coins + 5);
-            tvTotal.setText(String.valueOf(coins + 5));
-            Set<Integer> updated = getCheckedDaysOfCurrentMonth(userId);
-            adapter.setCheckedDays(updated);
-            adapter.notifyDataSetChanged();
-            Toast.makeText(this, "签到成功，获得5积分", Toast.LENGTH_SHORT).show();
+            
+            boolean success = checkInDao.checkIn(userId, today, 10);
+            if (success) {
+                int coins = userDao.getUser(userId).getCoins();
+                tvTotal.setText(String.valueOf(coins)); // Coins are updated in DB by checkInDao
+                
+                Set<Integer> updated = getCheckedDaysOfCurrentMonth(userId);
+                adapter.setCheckedDays(updated);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(this, "签到成功，获得10积分", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "签到失败，请稍后重试", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
-    private boolean isCheckedInToday(int userId) {
-        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
-        DBHelper helper = new DBHelper(this);
-        SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor cursor = db.query(DBHelper.TABLE_CHECKIN, null, "user_id=? AND checkin_date=?",
-                new String[]{String.valueOf(userId), today}, null, null, null);
-        boolean exists = cursor != null && cursor.moveToFirst();
-        if (cursor != null) cursor.close();
-        db.close();
-        return exists;
-    }
-
-    private void addCheckIn(int userId, int points) {
-        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
-        SQLiteDatabase db = new DBHelper(this).getWritableDatabase();
-        db.execSQL("INSERT INTO " + DBHelper.TABLE_CHECKIN + " (user_id, checkin_date, points) VALUES (?, ?, ?)",
-                new Object[]{userId, today, points});
-        db.close();
-    }
-
+    // Removed manual isCheckedInToday and addCheckIn as we use CheckInDao now
+    
     private Set<Integer> getCheckedDaysOfCurrentMonth(int userId) {
         Calendar cal = Calendar.getInstance();
         String prefix = new SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(cal.getTime());

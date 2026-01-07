@@ -12,13 +12,15 @@ public class Course {
 
     public Course() {}
 
-    public Course(int courseId, String title, String coverUrl, String videoUrl, int progress, String category) {
+    public Course(int courseId, String title, String coverUrl, String videoUrl, int progress, String category,int price,int enrollmentCount) {
         this.courseId = courseId;
         this.title = title;
         this.coverUrl = coverUrl;
         this.videoUrl = videoUrl;
         this.progress = progress;
         this.category = category;
+        this.price=price;
+        this.enrollmentCount=enrollmentCount;
     }
 
     // Getters and Setters

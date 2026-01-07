@@ -28,12 +28,18 @@ import android.widget.RatingBar;
 import com.example.catstudy.db.FavoriteDao;
 import com.example.catstudy.db.ReviewDao;
 import com.example.catstudy.ui.adapter.ReviewAdapter;
+import com.example.catstudy.network.ApiClient;
+import com.example.catstudy.network.ApisApi;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import java.util.List;
 
 @OptIn(markerClass = UnstableApi.class)
 public class CourseDetailActivity extends BaseActivity {
 
     private int courseId;
+    private List<String> remoteVideoUrls;
     private CourseDao courseDao;
     private CartDao cartDao;
     private ChapterDao chapterDao;
@@ -226,5 +232,22 @@ public class CourseDetailActivity extends BaseActivity {
     private void updateFavoriteUI(boolean isFavorited) {
         ivFavorite.setImageResource(isFavorited ? android.R.drawable.btn_star_big_on : android.R.drawable.btn_star_big_off);
         ivFavorite.setColorFilter(isFavorited ? 0xFFFFC107 : 0xFF9E9E9E);
+    }
+
+    private void fetchRemoteVideos() {
+        ApisApi apisApi = ApiClient.createService(ApisApi.class);
+        apisApi.getVideos().enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    remoteVideoUrls = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                // Ignore failure
+            }
+        });
     }
 }

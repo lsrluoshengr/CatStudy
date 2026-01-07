@@ -57,7 +57,7 @@
                 android:id="@+id/btn_check_in"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="每日签到 (+5积分)"
+                android:text="每日签到 (+10积分)"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/classical_ivory"

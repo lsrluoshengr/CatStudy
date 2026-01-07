@@ -16,6 +16,11 @@ import androidx.media3.common.util.UnstableApi;
 import com.example.catstudy.db.ChapterDao;
 import com.example.catstudy.model.Chapter;
 import com.example.catstudy.ui.activity.VideoPlayerActivity;
+import com.example.catstudy.network.ApiClient;
+import com.example.catstudy.network.ApisApi;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +29,7 @@ import java.util.List;
 public class CourseCatalogFragment extends Fragment {
 
     private int courseId;
+    private List<String> remoteVideoUrls;
 
     @Nullable
     @Override
@@ -32,6 +38,8 @@ public class CourseCatalogFragment extends Fragment {
         if (getActivity() != null) {
             courseId = getActivity().getIntent().getIntExtra("course_id", -1);
         }
+
+        fetchRemoteVideos();
 
         ListView listView = new ListView(getContext());
         
@@ -53,7 +61,13 @@ public class CourseCatalogFragment extends Fragment {
             if (position >= 0 && position < chapterList.size()) {
                 Chapter selectedChapter = chapterList.get(position);
                 Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-                intent.putExtra("extra_video_url", selectedChapter.getVideoUrl());
+                
+                String videoUrl = selectedChapter.getVideoUrl();
+                if (remoteVideoUrls != null && !remoteVideoUrls.isEmpty()) {
+                    videoUrl = remoteVideoUrls.get(position % remoteVideoUrls.size());
+                }
+
+                intent.putExtra("extra_video_url", videoUrl);
                 intent.putExtra("extra_chapter_title", selectedChapter.getTitle());
                 startActivity(intent);
             } else {
@@ -62,5 +76,22 @@ public class CourseCatalogFragment extends Fragment {
         });
         
         return listView;
+    }
+
+    private void fetchRemoteVideos() {
+        ApisApi apisApi = ApiClient.createService(ApisApi.class);
+        apisApi.getVideos().enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    remoteVideoUrls = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                // Ignore failure, keep using local placeholder
+            }
+        });
     }
 }

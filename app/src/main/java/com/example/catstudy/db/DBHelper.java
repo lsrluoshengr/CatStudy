@@ -11,7 +11,7 @@ import java.util.List;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "learning_mate.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     private static final String TAG = "DBHelper";
     // 临时视频资源占位符（后续替换入口）
     private static final String PLACEHOLDER_CHAPTER_VIDEO = "http://vjs.zencdn.net/v/oceans.mp4";
@@ -218,7 +218,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "user_id INTEGER, " +
                 "checkin_date TEXT, " +
-                "points INTEGER)";
+                "points INTEGER, " +
+                "consecutive_days INTEGER DEFAULT 1)";
         db.execSQL(CREATE_CHECKIN_TABLE);
 
         String CREATE_SEARCH_HISTORY_TABLE = "CREATE TABLE " + TABLE_SEARCH_HISTORY + " (" +
@@ -338,6 +339,13 @@ public class DBHelper extends SQLiteOpenHelper {
                     "keyword TEXT UNIQUE, " +
                     "create_time LONG)";
             db.execSQL(CREATE_SEARCH_HISTORY_TABLE);
+        }
+        if (oldVersion < 11) {
+            try {
+                db.execSQL("ALTER TABLE " + TABLE_CHECKIN + " ADD COLUMN consecutive_days INTEGER DEFAULT 1");
+            } catch (Exception e) {
+                // Ignore if already exists
+            }
         }
     }
 

@@ -32,18 +32,18 @@ public final class MockCourseData {
         String cover2 = "https://img.zcool.cn/community/01f09e577b85450000018c1b4f4c2e.jpg@1280w_1l_2o_100sh.jpg";
         String cover3 = "https://img.zcool.cn/community/019c29577b85470000012e7e78553f.jpg@1280w_1l_2o_100sh.jpg";
 
-        list.add(create(1001, "内科护理学", cover1, video, 0,  "护理", 10, 0));
-        list.add(create(1002, "外科护理学", cover2, video, 0,  "护理", 10, 0));
-        list.add(create(1003, "护理学导论", cover3, video, 0,  "护理", 10, 120));
+        list.add(create(1001, "护理科研", cover1, video, 0,  "护理", 10, 0));
+        list.add(create(1002, "内科护理学", cover2, video, 0,  "护理", 10, 0));
+        list.add(create(1003, "护理伦理与法规", cover3, video, 0,  "护理", 10, 120));
         list.add(create(1004, "传染病护理", cover1, video, 0,  "护理", 20, 0));
-        list.add(create(1005, "儿科护理学", cover2, video, 0,  "护理", 10, 50));
-        list.add(create(1006, "急危重症护理", cover3, video, 0,  "护理", 15, 0));
-        list.add(create(1007, "社区护理学", cover1, video, 0,  "护理", 10, 30));
-        list.add(create(1008, "手术室护理", cover2, video, 0,  "护理", 20, 0));
-        list.add(create(1009, "护理科研",   cover3, video, 0,  "护理", 10, 10));
-        list.add(create(1010, "护理伦理与法规", cover1, video, 0, "护理", 10, 0));
-        list.add(create(1011, "麻醉学入门", cover2, video, 0, "麻醉", 30, 0));
-        list.add(create(1012, "康复治疗学", cover3, video, 0, "康复", 25, 8));
+        list.add(create(1005, "内科护理学", cover2, video, 0,  "护理", 10, 50));
+        list.add(create(1006, "护理学导论", cover3, video, 0,  "护理", 15, 0));
+        list.add(create(1007, "基础护理学", cover1, video, 0,  "护理", 10, 30));
+        list.add(create(1008, "外科护理学", cover2, video, 0,  "护理", 20, 0));
+        list.add(create(1009, "护理研究",   cover3, video, 0,  "护理", 10, 10));
+        list.add(create(1010, "急危重症护理", cover1, video, 0, "护理", 10, 0));
+        list.add(create(1011, "儿科护理学", cover2, video, 0, "麻醉", 30, 0));
+        list.add(create(1012, "社区护理学", cover3, video, 0, "康复", 25, 8));
 
         return list;
     }

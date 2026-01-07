@@ -84,6 +84,14 @@ public class ProfileFragment extends Fragment {
         loadUserData();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            loadUserData();
+        }
+    }
+
     private void loadUserData() {
         SharedPreferences sp = getContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         int userId = sp.getInt("user_id", -1);
