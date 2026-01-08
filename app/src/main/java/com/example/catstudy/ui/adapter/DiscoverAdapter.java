@@ -65,7 +65,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
             Glide.with(context)
                  .load(displayUrl)
                  .apply(RequestOptions.bitmapTransform(new RoundedCorners(24)))
-                 .placeholder(R.mipmap.ic_launcher)
+                 .placeholder(R.mipmap.course_detail)
                  .into(holder.ivPostImage);
         } else {
             holder.ivPostImage.setVisibility(View.GONE);

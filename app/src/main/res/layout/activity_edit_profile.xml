@@ -4,10 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5">
+    android:background="@drawable/bg_classical_screen">
 
-    <!-- Title Bar -->
-    <include layout="@layout/include_toolbar"/>
+    <!-- Header -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/classical_red"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="30dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="@color/classical_gold"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改资料"
+            android:textColor="@color/classical_gold"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -24,16 +47,16 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="@android:color/white">
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/classical_ivory">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp">
+                    android:padding="16dp"
+                    android:background="@drawable/bg_classical_inner_border">
 
                     <!-- Avatar Row -->
                     <LinearLayout
@@ -41,14 +64,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:background="?attr/selectableItemBackground">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="头像"
-                            android:textColor="#333333"
+                            android:textColor="@color/classical_text_primary"
                             android:textSize="16sp"/>
 
                         <com.google.android.material.imageview.ShapeableImageView
@@ -58,12 +82,21 @@
                             android:scaleType="centerCrop"
                             android:src="@mipmap/ic_launcher"
                             app:shapeAppearanceOverlay="@style/CircleImageStyle"/>
+                        
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginStart="8dp"
+                            android:src="@drawable/ic_arrow_right"
+                            app:tint="#999999"/>
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#F0F0F0"/>
+                        android:background="#C5A028"
+                        android:alpha="0.3"
+                        android:layout_marginVertical="8dp"/>
 
                     <!-- Username Row -->
                     <LinearLayout
@@ -76,7 +109,7 @@
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="用户名"
-                            android:textColor="#333333"
+                            android:textColor="@color/classical_text_primary"
                             android:textSize="16sp"/>
 
                         <TextView
@@ -84,7 +117,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="User123"
-                            android:textColor="#666666"
+                            android:textColor="@color/classical_text_secondary"
                             android:textSize="16sp"
                             android:gravity="end"/>
                     </LinearLayout>
@@ -100,16 +133,16 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="@android:color/white">
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/classical_ivory">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp">
+                    android:padding="16dp"
+                    android:background="@drawable/bg_classical_inner_border">
 
                     <!-- Gender -->
                     <LinearLayout
@@ -122,7 +155,7 @@
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="性别"
-                            android:textColor="#333333"
+                            android:textColor="@color/classical_text_primary"
                             android:textSize="16sp"/>
 
                         <Spinner
@@ -130,9 +163,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:spinnerMode="dropdown"
-                            android:entries="@array/gender_options"/>
+                            android:entries="@array/gender_options"
+                            android:gravity="end"
+                            android:textAlignment="viewEnd"/>
                     </LinearLayout>
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0"/>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#C5A028" android:alpha="0.3"/>
 
                     <!-- Age -->
                     <LinearLayout
@@ -145,7 +180,7 @@
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="年龄"
-                            android:textColor="#333333"
+                            android:textColor="@color/classical_text_primary"
                             android:textSize="16sp"/>
 
                         <EditText
@@ -156,9 +191,11 @@
                             android:inputType="number"
                             android:hint="请输入年龄"
                             android:textSize="16sp"
-                            android:textColor="#333333"/>
+                            android:textColor="@color/classical_text_primary"
+                            android:textColorHint="@color/classical_text_secondary"
+                            android:gravity="end"/>
                     </LinearLayout>
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0"/>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#C5A028" android:alpha="0.3"/>
 
                     <!-- Phone -->
                     <LinearLayout
@@ -171,7 +208,7 @@
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="电话"
-                            android:textColor="#333333"
+                            android:textColor="@color/classical_text_primary"
                             android:textSize="16sp"/>
 
                         <EditText
@@ -182,9 +219,11 @@
                             android:inputType="phone"
                             android:hint="请输入电话"
                             android:textSize="16sp"
-                            android:textColor="#333333"/>
+                            android:textColor="@color/classical_text_primary"
+                            android:textColorHint="@color/classical_text_secondary"
+                            android:gravity="end"/>
                     </LinearLayout>
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0"/>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#C5A028" android:alpha="0.3"/>
 
                     <!-- Email -->
                     <LinearLayout
@@ -197,7 +236,7 @@
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="邮箱"
-                            android:textColor="#333333"
+                            android:textColor="@color/classical_text_primary"
                             android:textSize="16sp"/>
 
                         <EditText
@@ -208,9 +247,11 @@
                             android:inputType="textEmailAddress"
                             android:hint="请输入邮箱"
                             android:textSize="16sp"
-                            android:textColor="#333333"/>
+                            android:textColor="@color/classical_text_primary"
+                            android:textColorHint="@color/classical_text_secondary"
+                            android:gravity="end"/>
                     </LinearLayout>
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0"/>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#C5A028" android:alpha="0.3"/>
 
                     <!-- Signature -->
                     <LinearLayout
@@ -223,7 +264,7 @@
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="个性签名"
-                            android:textColor="#333333"
+                            android:textColor="@color/classical_text_primary"
                             android:textSize="16sp"/>
 
                         <EditText
@@ -233,7 +274,9 @@
                             android:background="@null"
                             android:hint="请输入个性签名"
                             android:textSize="16sp"
-                            android:textColor="#333333"/>
+                            android:textColor="@color/classical_text_primary"
+                            android:textColorHint="@color/classical_text_secondary"
+                            android:gravity="end"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -249,10 +292,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="保存"
-                android:textColor="@android:color/white"
+                android:textColor="@color/classical_gold"
                 android:textSize="18sp"
-                android:backgroundTint="#DFA8A8"
-                app:cornerRadius="25dp"/>
+                android:textStyle="bold"
+                android:background="@drawable/bg_classical_button_red"
+                app:backgroundTint="@null"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

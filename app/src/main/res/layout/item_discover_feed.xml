@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF"
-    android:padding="16dp"
-    android:layout_marginBottom="8dp">
+    android:background="@drawable/bg_discover_card"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginBottom="12dp"
+    android:padding="16dp">
 
     <!-- Avatar -->
     <ImageView
@@ -23,7 +24,7 @@
         android:layout_height="wrap_content"
         android:text="Username"
         android:textStyle="bold"
-        android:textColor="#333333"
+        android:textColor="#8B4513"
         android:textSize="16sp"
         android:layout_marginStart="12dp"
         app:layout_constraintStart_toEndOf="@id/iv_avatar"
@@ -35,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2 hours ago"
-        android:textColor="#999999"
+        android:textColor="#808080"
         android:textSize="12sp"
         android:layout_marginStart="12dp"
         app:layout_constraintStart_toEndOf="@id/iv_avatar"
@@ -46,7 +47,7 @@
         android:id="@+id/tv_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="This is a sample post content. Learning Android is fun!"
+        android:text="This is a sample post content."
         android:textColor="#333333"
         android:textSize="15sp"
         android:layout_marginTop="12dp"
@@ -61,7 +62,7 @@
         android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:layout_marginTop="12dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/course_detail"
         app:layout_constraintTop_toBottomOf="@id/tv_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

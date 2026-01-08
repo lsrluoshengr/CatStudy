@@ -1,6 +1,9 @@
 package com.example.catstudy.ui.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -18,7 +23,6 @@ import com.example.catstudy.db.SocialDao;
 import com.example.catstudy.model.Post;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class CreatePostActivity extends BaseActivity {
     private EditText etContent;
@@ -28,6 +32,7 @@ public class CreatePostActivity extends BaseActivity {
     private SocialDao socialDao;
     private int currentUserId;
     private List<String> selectedImages = new ArrayList<>();
+    private ActivityResultLauncher<Intent> imagePickerLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,26 @@ public class CreatePostActivity extends BaseActivity {
         rvImages = findViewById(R.id.rv_images);
         ImageView btnSend = findViewById(R.id.btn_send);
 
+        // Initialize Image Picker
+        imagePickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Uri selectedImageUri = result.getData().getData();
+                        if (selectedImageUri != null) {
+                            String localPath = copyImageToInternalStorage(selectedImageUri);
+                            if (localPath != null) {
+                                selectedImages.add(localPath);
+                                updateCount();
+                                imageAdapter.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(this, "图片处理失败", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+        );
+
         // Setup RecyclerView
         rvImages.setLayoutManager(new GridLayoutManager(this, 3));
         imageAdapter = new ImageAdapter();
@@ -51,14 +76,35 @@ public class CreatePostActivity extends BaseActivity {
         btnSend.setOnClickListener(v -> publishPost());
     }
 
+    private String copyImageToInternalStorage(Uri uri) {
+        try {
+            java.io.InputStream is = getContentResolver().openInputStream(uri);
+            String filename = "post_" + System.currentTimeMillis() + "_" + (int)(Math.random() * 1000) + ".jpg";
+            java.io.File file = new java.io.File(getFilesDir(), filename);
+            java.io.FileOutputStream fos = new java.io.FileOutputStream(file);
+            
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                fos.write(buffer, 0, len);
+            }
+            fos.close();
+            is.close();
+            return file.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private void publishPost() {
         String content = etContent.getText().toString().trim();
         if (currentUserId == -1) {
             Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (content.isEmpty()) {
-            Toast.makeText(this, "请输入内容", Toast.LENGTH_SHORT).show();
+        if (content.isEmpty() && selectedImages.isEmpty()) {
+            Toast.makeText(this, "请输入内容或选择图片", Toast.LENGTH_SHORT).show();
             return;
         }
         Post p = new Post();
@@ -103,14 +149,9 @@ public class CreatePostActivity extends BaseActivity {
                         Toast.makeText(CreatePostActivity.this, "最多选择6张图片", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    // Simulate adding an image
-                    String[] pics = {
-                            "https://picsum.photos/seed/" + new Random().nextInt(9999) + "/600/400",
-                            "https://img.zcool.cn/community/01f09e577b85450000018c1b4f4c2e.jpg@1280w_1l_2o_100sh.jpg"
-                    };
-                    selectedImages.add(pics[new Random().nextInt(pics.length)]);
-                    updateCount();
-                    notifyDataSetChanged();
+                    // Open Gallery
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    imagePickerLauncher.launch(intent);
                 });
             } else {
                 ImageViewHolder ivh = (ImageViewHolder) holder;

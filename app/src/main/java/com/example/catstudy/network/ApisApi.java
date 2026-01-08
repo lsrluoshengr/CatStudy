@@ -8,6 +8,6 @@ public interface ApisApi {
     @GET("apis/images")
     Call<ApiResponse<List<String>>> getImages();
 
-    @GET("apis/videos")
-    Call<ApiResponse<List<String>>> getVideos();
+    @GET("apis/courses")
+    Call<ApiResponse<List<com.example.catstudy.model.Course>>> getCourses();
 }

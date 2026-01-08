@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
         // Setup Banner
         banner = view.findViewById(R.id.banner);
         setupBanner();
-        fetchRemoteBannerImages();
+
 
         // Setup RecyclerView with Mock Data
         recyclerView = view.findViewById(R.id.recycler_view_home);
@@ -103,25 +103,25 @@ public class HomeFragment extends Fragment {
 
         catFood.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SearchActivity.class);
-            intent.putExtra("prefill_keyword", "美食");
+            intent.putExtra("prefill_keyword", "新手入门");
             startActivity(intent);
             if (getActivity() != null) getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
         catMedical.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SearchActivity.class);
-            intent.putExtra("prefill_keyword", "百科");
+            intent.putExtra("prefill_keyword", "初级课程");
             startActivity(intent);
             if (getActivity() != null) getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
         catBehavior.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SearchActivity.class);
-            intent.putExtra("prefill_keyword", "心理");
+            intent.putExtra("prefill_keyword", "中级课程");
             startActivity(intent);
             if (getActivity() != null) getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
         catDaily.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SearchActivity.class);
-            intent.putExtra("prefill_keyword", "护理");
+            intent.putExtra("prefill_keyword", "高级课程");
             startActivity(intent);
             if (getActivity() != null) getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });

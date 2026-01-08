@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import com.example.catstudy.data.MockCourseData;
 import com.example.catstudy.model.Course;
 import java.util.List;
 
@@ -350,51 +349,6 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private void initMockData(SQLiteDatabase db) {
-        // Init Courses from MockCourseData
-        List<Course> mockCourses = MockCourseData.getMockCourses();
-        for (Course course : mockCourses) {
-            String insertCourseSql = "INSERT INTO " + TABLE_COURSE + " (" +
-                    COL_COURSE_ID + ", " + COL_TITLE + ", " + COL_COVER_URL + ", " + COL_VIDEO_URL + ", " + 
-                    COL_PROGRESS + ", " + COL_CATEGORY + ", " + COL_PRICE + ", " + COL_ENROLLMENT_COUNT +
-                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            
-            // We use the ID from MockCourseData to ensure consistency
-            db.execSQL(insertCourseSql, new Object[]{
-                course.getCourseId(),
-                course.getTitle(), 
-                course.getCoverUrl(), 
-                course.getVideoUrl(), 
-                course.getProgress(), 
-                course.getCategory(), 
-                course.getPrice(),
-                course.getEnrollmentCount()
-            });
-            
-            // Generate mock chapters for this course
-            int chapterCount = 3 + (int) (Math.random() * 8);
-            for (int j = 0; j < chapterCount; j++) {
-                int chapterNum = j + 1;
-                String chapterTitle = "第" + chapterNum + "章";
-                long duration = 600000 + (long) (Math.random() * 1200000); // 10-30 minutes
-                int sortOrder = chapterNum;
-                
-                String insertChapterSql = "INSERT INTO " + TABLE_CHAPTER + " (" +
-                        COL_CHAPTER_COURSE_ID + ", " + COL_CHAPTER_TITLE + ", " + 
-                        COL_CHAPTER_VIDEO_URL + ", " + COL_CHAPTER_DURATION + ", " + 
-                        COL_CHAPTER_SORT_ORDER + ") VALUES (?, ?, ?, ?, ?)";
-                
-                // Initialize with empty video URL, to be populated by API sync
-                String chapterVideo = "";
-                db.execSQL(insertChapterSql, new Object[]{
-                    course.getCourseId(), // Use the same course ID
-                    chapterTitle, 
-                    chapterVideo, 
-                    duration, 
-                    sortOrder
-                });
-            }
-        }
-        
         initMockUsers(db);
         initMockPosts(db);
         initMockReviews(db);

@@ -1,13 +1,23 @@
 package com.example.catstudy.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Course {
+    @SerializedName("courseId")
     private int courseId;
+    @SerializedName("title")
     private String title;
+    @SerializedName("coverUrl")
     private String coverUrl;
+    @SerializedName("videoUrl")
     private String videoUrl;
+    @SerializedName("progress")
     private int progress;
+    @SerializedName("category")
     private String category;
+    @SerializedName("price")
     private int price;
+    @SerializedName("enrollmentCount")
     private int enrollmentCount;
 
     public Course() {}

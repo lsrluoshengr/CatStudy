@@ -1,108 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@color/classical_ivory">
 
-    <!-- Top Yellow Background -->
     <View
+        android:id="@+id/view_top_bg"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:background="@drawable/bg_login_top" />
+        android:layout_height="0dp"
+        android:background="@drawable/bg_login_header_red"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_percent="0.4" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_app_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="在线学习系统"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:textColor="@color/classical_gold"
+        android:letterSpacing="0.05"
+        android:shadowColor="#33000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        app:layout_constraintBottom_toTopOf="@+id/card_login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_login"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="12dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="在线学习系统"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="80dp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="32dp"
-            android:layout_marginBottom="120dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="#FFFFFF">
+            android:orientation="vertical"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="40dp">
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/et_username"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="32dp">
+                android:layout_height="54dp"
+                android:background="@drawable/bg_login_input"
+                android:drawableStart="@drawable/ic_person"
+                android:drawablePadding="14dp"
+                android:drawableTint="@color/classical_gold"
+                android:hint="请输入您的用户名"
+                android:paddingHorizontal="16dp"
+                android:textSize="15sp"
+                android:textColor="#333333"
+                android:textColorHint="#999999"
+                android:inputType="text"
+                android:maxLines="1"
+                android:layout_marginBottom="20dp" />
 
-                <EditText
-                    android:id="@+id/et_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/bg_edit_text"
-                    android:drawableStart="@drawable/ic_person"
-                    android:drawablePadding="12dp"
-                    android:hint="请输入您的用户名"
-                    android:paddingHorizontal="16dp"
-                    android:textSize="14sp"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:layout_marginBottom="16dp" />
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@drawable/bg_login_input"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawablePadding="14dp"
+                android:drawableTint="@color/classical_gold"
+                android:hint="请输入您的密码"
+                android:paddingHorizontal="16dp"
+                android:textSize="15sp"
+                android:textColor="#333333"
+                android:textColorHint="#999999"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:layout_marginBottom="32dp" />
 
-                <EditText
-                    android:id="@+id/et_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/bg_edit_text"
-                    android:drawableStart="@drawable/ic_lock"
-                    android:drawablePadding="12dp"
-                    android:hint="请输入您的密码"
-                    android:paddingHorizontal="16dp"
-                    android:textSize="14sp"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:layout_marginBottom="24dp" />
+            <android.widget.Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@drawable/bg_classical_button"
+                android:backgroundTint="@color/classical_gold"
+                android:text="登  录"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/classical_red"
+                android:stateListAnimator="@null" />
 
-                <Button
-                    android:id="@+id/btn_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/bg_login_button"
-                    android:text="登 录"
-                    android:textSize="16sp"
-                    android:textColor="#FFFFFF"
-                    app:backgroundTint="@null" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_register_link"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="没有账号？立即注册"
-                    android:textColor="@color/classical_red"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:padding="8dp"/>
+    </androidx.cardview.widget.CardView>
 
-            </LinearLayout>
+    <TextView
+        android:id="@+id/tv_register_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="没有账号？立即注册"
+        android:textSize="14sp"
+        android:textColor="@color/classical_red"
+        android:textStyle="bold"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="24dp"/>
 
-        </androidx.cardview.widget.CardView>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

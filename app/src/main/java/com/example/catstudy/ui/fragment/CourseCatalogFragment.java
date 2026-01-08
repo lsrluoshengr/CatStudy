@@ -30,7 +30,7 @@ import java.util.List;
 public class CourseCatalogFragment extends Fragment {
 
     private int courseId;
-    private List<String> remoteVideoUrls;
+    // private List<String> remoteVideoUrls;
 
     @Nullable
     @Override
@@ -40,7 +40,7 @@ public class CourseCatalogFragment extends Fragment {
             courseId = getActivity().getIntent().getIntExtra("course_id", -1);
         }
 
-        fetchRemoteVideos();
+//        fetchRemoteVideos();
 
         ListView listView = new ListView(getContext());
 
@@ -64,9 +64,9 @@ public class CourseCatalogFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
 
                 String videoUrl = selectedChapter.getVideoUrl();
-                if (remoteVideoUrls != null && !remoteVideoUrls.isEmpty()) {
-                    videoUrl = remoteVideoUrls.get(position % remoteVideoUrls.size());
-                }
+                // if (remoteVideoUrls != null && !remoteVideoUrls.isEmpty()) {
+                //    videoUrl = remoteVideoUrls.get(position % remoteVideoUrls.size());
+                // }
 
                 intent.putExtra("extra_video_url", videoUrl);
                 intent.putExtra("extra_chapter_title", selectedChapter.getTitle());
@@ -79,43 +79,7 @@ public class CourseCatalogFragment extends Fragment {
         return listView;
     }
 
-    private void fetchRemoteVideos() {
-        ApisApi apisApi = ApiClient.createService(ApisApi.class);
-        apisApi.getVideos().enqueue(new Callback<ApiResponse<List<String>>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<List<String>>> call, Response<ApiResponse<List<String>>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<String> videos = response.body().getData();
-                    if (videos != null && !videos.isEmpty()) {
-                        List<String> validVideos = new java.util.ArrayList<>();
-                        for (String v : videos) {
-                            if (v != null && !v.isEmpty()) {
-                                validVideos.add(v);
-                            }
-                        }
-                        if (!validVideos.isEmpty()) {
-                            remoteVideoUrls = validVideos;
-                            android.util.Log.d("CourseCatalog", "Remote videos fetched: " + validVideos.size());
-                        }
-                    } else {
-                        android.util.Log.w("CourseCatalog", "Remote videos list is empty");
-                    }
-                } else {
-                    android.util.Log.e("CourseCatalog", "Remote videos fetch failed: " + response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<List<String>>> call, Throwable t) {
-                android.util.Log.e("CourseCatalog", "Remote videos fetch error: " + t.getMessage());
-            }
-        });
-    }
-
-//    @Override
-//    public void onFailure(Call<ApiResponse<List<String>>> call, Throwable t) {
-//        // Ignore failure, keep using local placeholder
-//    }
+    // private void fetchRemoteVideos() { ... }
 }
 
 

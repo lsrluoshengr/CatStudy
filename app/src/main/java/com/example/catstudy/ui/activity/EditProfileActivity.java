@@ -63,7 +63,8 @@ public class EditProfileActivity extends BaseActivity {
     }
 
     private void initView() {
-        initToolbar("修改资料");
+        // initToolbar("修改资料"); // Custom layout used
+        findViewById(R.id.iv_back).setOnClickListener(v -> finish());
 
         ivAvatar = findViewById(R.id.iv_avatar);
         tvUsername = findViewById(R.id.tv_username);
@@ -138,35 +139,8 @@ public class EditProfileActivity extends BaseActivity {
     private void initImagePickers() {
         pickImageLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
             if (uri != null) {
-                // Check file size (limit 2MB)
-                if (getFileSize(uri) > 2 * 1024 * 1024) {
-                    Toast.makeText(this, "图片大小不能超过2MB", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                CropImageOptions opt = new CropImageOptions();
-                opt.fixAspectRatio = true;
-                opt.aspectRatioX = 1;
-                opt.aspectRatioY = 1;
-                opt.outputCompressFormat = Bitmap.CompressFormat.JPEG;
-                opt.outputCompressQuality = 80;
-                opt.guidelines = com.canhub.cropper.CropImageView.Guidelines.ON;
-                opt.imageSourceIncludeGallery = true;
-                opt.imageSourceIncludeCamera = true;
-                
-                cropImageLauncher.launch(new CropImageContractOptions(uri, opt));
-            }
-        });
-        cropImageLauncher = registerForActivityResult(new CropImageContract(), result -> {
-            if (result == null) return;
-            if (result.isSuccessful()) {
-                Uri cropped = result.getUriContent();
-                if (cropped != null) {
-                    // No need to manually compress again as library does it
-                    saveCroppedImage(cropped);
-                }
-            } else {
-                Toast.makeText(this, "裁剪取消或失败", Toast.LENGTH_SHORT).show();
+                // Directly use the selected image
+                saveImage(uri);
             }
         });
     }
@@ -189,7 +163,7 @@ public class EditProfileActivity extends BaseActivity {
         return 0;
     }
 
-    private void saveCroppedImage(Uri source) {
+    private void saveImage(Uri source) {
         try {
             InputStream in = getContentResolver().openInputStream(source);
             File outFile = new File(getFilesDir(), "avatar_user_" + currentUser.getUserId() + "_" + System.currentTimeMillis() + ".jpg");

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -12,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.catstudy.R;
 import com.example.catstudy.db.CourseDao;
 import com.example.catstudy.model.Course;
@@ -62,6 +65,15 @@ public class StudyFragment extends Fragment {
     private void initViews(View view) {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        
+        // Load banner image
+        ImageView ivBanner = view.findViewById(R.id.iv_study_banner);
+        if (ivBanner != null) {
+            Glide.with(this)
+                 .load("https://img.keaitupian.cn/newupload/06/1686305531556674.jpg")
+                 .placeholder(R.mipmap.ic_launcher)
+                 .into(ivBanner);
+        }
         
         tabSelf = view.findViewById(R.id.tab_self_selected);
         tvTabSelf = view.findViewById(R.id.tv_tab_self);

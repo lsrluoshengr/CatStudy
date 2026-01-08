@@ -12,6 +12,8 @@ import com.example.catstudy.network.ApiClient;
 import com.example.catstudy.network.ApisApi;
 import com.example.catstudy.network.ApiResponse;
 import com.example.catstudy.db.ChapterDao;
+import com.example.catstudy.model.Course;
+import com.example.catstudy.db.CourseDao;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,10 +26,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        // Sync chapter videos from API
-        syncChapterVideos();
-        // Sync course covers from API
-        syncImages();
+        // Sync full course data from API
+        syncCourses();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnItemSelectedListener(item -> {
@@ -65,30 +65,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void syncChapterVideos() {
+    private void syncCourses() {
         ApisApi api = ApiClient.createService(ApisApi.class);
-        api.getVideos().enqueue(new Callback<ApiResponse<List<String>>>() {
+        api.getCourses().enqueue(new Callback<ApiResponse<List<Course>>>() {
             @Override
-            public void onResponse(Call<ApiResponse<List<String>>> call, Response<ApiResponse<List<String>>> response) {
+            public void onResponse(Call<ApiResponse<List<Course>>> call, Response<ApiResponse<List<Course>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<String> videos = response.body().getData();
-                    if (videos != null && !videos.isEmpty()) {
-                        // Filter out nulls
-                        List<String> validVideos = new java.util.ArrayList<>();
-                        for (String v : videos) {
-                            if (v != null && !v.isEmpty()) {
-                                validVideos.add(v);
-                            }
-                        }
-                        
-                        if (!validVideos.isEmpty()) {
-                            ChapterDao chapterDao = new ChapterDao(MainActivity.this);
-                            chapterDao.updateAllChapterVideos(validVideos);
-                        } else {
-                             android.util.Log.w("MainActivity", "No valid videos received from API");
-                        }
+                    List<Course> courses = response.body().getData();
+                    if (courses != null && !courses.isEmpty()) {
+                        CourseDao courseDao = new CourseDao(MainActivity.this);
+                        courseDao.syncCourses(courses);
+                        android.util.Log.d("MainActivity", "Synced " + courses.size() + " courses from API");
                     } else {
-                        android.util.Log.w("MainActivity", "Empty video list received from API");
+                        android.util.Log.w("MainActivity", "Empty course list received from API");
                     }
                 } else {
                     android.util.Log.e("MainActivity", "API response unsuccessful: " + response.code());
@@ -96,42 +85,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<List<String>>> call, Throwable t) {
-                // Log error if needed
-                android.util.Log.e("MainActivity", "Failed to sync videos: " + t.getMessage());
-                // Optional: Toast for debugging
-                // android.widget.Toast.makeText(MainActivity.this, "Sync videos failed: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void syncImages() {
-        ApisApi api = ApiClient.createService(ApisApi.class);
-        api.getImages().enqueue(new Callback<ApiResponse<List<String>>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<List<String>>> call, Response<ApiResponse<List<String>>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<String> images = response.body().getData();
-                    if (images != null && !images.isEmpty()) {
-                        List<String> validImages = new java.util.ArrayList<>();
-                        for (String img : images) {
-                            if (img != null && !img.isEmpty()) {
-                                validImages.add(img);
-                            }
-                        }
-                        
-                        if (!validImages.isEmpty()) {
-                            com.example.catstudy.db.CourseDao courseDao = new com.example.catstudy.db.CourseDao(MainActivity.this);
-                            courseDao.updateAllCourseCovers(validImages);
-                            android.util.Log.d("MainActivity", "Synced " + validImages.size() + " images to courses");
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<List<String>>> call, Throwable t) {
-                android.util.Log.e("MainActivity", "Failed to sync images: " + t.getMessage());
+            public void onFailure(Call<ApiResponse<List<Course>>> call, Throwable t) {
+                android.util.Log.e("MainActivity", "Failed to sync courses: " + t.getMessage());
             }
         });
     }

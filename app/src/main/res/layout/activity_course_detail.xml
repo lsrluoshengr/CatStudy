@@ -20,14 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@android:drawable/ic_menu_gallery" 
-            android:alpha="0.9"/>
-            
-        <!-- Overlay gradient for cinematic feel -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#20000000"/>
+            android:src="@android:drawable/ic_menu_gallery"/>
 
     </RelativeLayout>
 
@@ -39,7 +32,7 @@
         android:padding="16dp"
         android:gravity="center_vertical"
         android:background="@color/classical_ivory">
-        
+
         <TextView
             android:id="@+id/tv_course_title"
             android:layout_width="0dp"
@@ -48,7 +41,7 @@
             android:text="Course Title"
             style="@style/ClassicalTitleText"
             android:textSize="22sp"/>
-            
+
         <ImageView
             android:id="@+id/iv_favorite"
             android:layout_width="32dp"
@@ -56,7 +49,7 @@
             android:src="@android:drawable/btn_star_big_off"
             app:tint="@color/classical_gold"/>
     </LinearLayout>
-    
+
     <!-- Decorative Divider -->
     <View
         android:layout_width="match_parent"
@@ -118,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="目录"
-            android:textColor="@color/classical_text_primary"
+            android:textColor="@color/classical_ivory"
             android:background="@drawable/bg_classical_inner_border"
             android:layout_marginEnd="4dp"
             style="@style/ClassicalBodyText"/>
@@ -129,11 +122,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="评价"
-            android:textColor="@color/classical_text_primary"
+            android:textColor="@color/classical_ivory"
             android:background="@drawable/bg_classical_inner_border"
             style="@style/ClassicalBodyText"/>
     </LinearLayout>
-        
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -217,7 +210,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="12dp"
-        android:background="@color/classical_ivory"
+        android:background="@color/classical_blue"
         android:elevation="8dp">
 
         <Button
@@ -226,8 +219,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="加入购物车"
-            android:textColor="@color/classical_text_primary"
-            android:background="@drawable/bg_classical_inner_border"
+            android:textColor="@color/classical_gold"
+            android:backgroundTint="@color/classical_red"
             android:layout_marginEnd="8dp"
             style="@style/ClassicalBodyText"/>
 
@@ -237,9 +230,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="开始学习"
-            android:textColor="@color/classical_ivory"
-            android:background="@drawable/bg_classical_button"
+            android:textColor="@color/classical_gold"
+            android:backgroundTint="@color/classical_red"
             style="@style/ClassicalBodyText"/>
     </LinearLayout>
-    </LinearLayout>
+</LinearLayout>
+
+
+
 

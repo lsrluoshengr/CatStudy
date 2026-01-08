@@ -1,6 +1,7 @@
 package com.example.catstudy.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.example.catstudy.R;
 import com.example.catstudy.db.OrderDao;
 import com.example.catstudy.model.Course;
 import com.example.catstudy.model.Order;
+import com.example.catstudy.network.ApiClient;
 import com.example.catstudy.util.CourseCoverUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -106,11 +108,36 @@ public class OrderListActivity extends BaseActivity {
                     tvPrice.setText(course.getPrice() + "积分");
                     
                     int coverResId = CourseCoverUtils.getCoverResId(context, course.getCourseId());
-                    Glide.with(context)
-                            .load(coverResId)
-                            .placeholder(R.mipmap.ic_launcher)
-                            .error(R.mipmap.ic_launcher)
-                            .into(ivCover);
+                    String coverUrl = course.getCoverUrl();
+                    if (coverUrl != null && !coverUrl.isEmpty()) {
+                        String fullUrl = coverUrl;
+                        if (!coverUrl.startsWith("http") && !coverUrl.startsWith("content") && !coverUrl.startsWith("file")) {
+                             if (coverUrl.startsWith("/")) {
+                                  fullUrl = ApiClient.BASE_URL + coverUrl.substring(1);
+                             } else {
+                                  fullUrl = ApiClient.BASE_URL + coverUrl;
+                             }
+                        }
+                        Glide.with(context)
+                             .load(fullUrl)
+                             .placeholder(R.mipmap.ic_launcher)
+                             .error(coverResId != 0 ? coverResId : R.mipmap.ic_launcher)
+                             .into(ivCover);
+                    } else {
+                        Glide.with(context)
+                                .load(coverResId)
+                                .placeholder(R.mipmap.ic_launcher)
+                                .error(R.mipmap.ic_launcher)
+                                .into(ivCover);
+                    }
+
+                    // Add click listener to jump to CourseDetailActivity
+                    courseView.setOnClickListener(v -> {
+                        Intent intent = new Intent(context, CourseDetailActivity.class);
+                        intent.putExtra("course_id", course.getCourseId());
+                        intent.putExtra("course_title", course.getTitle());
+                        context.startActivity(intent);
+                    });
                             
                     holder.llCourseContainer.addView(courseView);
                 }

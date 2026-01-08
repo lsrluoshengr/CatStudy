@@ -40,7 +40,7 @@ import com.example.catstudy.network.ApiResponse;
 public class CourseDetailActivity extends BaseActivity {
 
     private int courseId;
-    private List<String> remoteVideoUrls;
+    // private List<String> remoteVideoUrls; // Removed
     private CourseDao courseDao;
     private CartDao cartDao;
     private ChapterDao chapterDao;
@@ -172,6 +172,11 @@ public class CourseDetailActivity extends BaseActivity {
 
         // Button Logic: Start Learning button now plays the first chapter
         Button btnStart = findViewById(R.id.btn_start_learning);
+        // Set selected/highlight style
+        btnStart.setBackgroundTintList(null);
+        btnStart.setBackgroundResource(R.drawable.bg_classical_button_red);
+        btnStart.setTextColor(getResources().getColor(R.color.classical_gold));
+
         btnStart.setOnClickListener(v -> {
             // Get the first chapter for this course and play it
             List<Chapter> chapters = chapterDao.getChaptersByCourseId(courseId);
@@ -187,6 +192,11 @@ public class CourseDetailActivity extends BaseActivity {
         });
 
         Button btnAddToCart = findViewById(R.id.btn_add_to_cart);
+        // Set unselected style (Orange)
+        btnAddToCart.setBackgroundTintList(null);
+        btnAddToCart.setBackgroundResource(R.drawable.bg_classical_button_red);
+        btnAddToCart.setTextColor(getResources().getColor(R.color.classical_gold));
+
         btnAddToCart.setOnClickListener(v -> {
             if (currentUserId == -1) {
                 Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
@@ -233,52 +243,35 @@ public class CourseDetailActivity extends BaseActivity {
         containerIntro.setVisibility(index == 0 ? View.VISIBLE : View.GONE);
         containerCatalog.setVisibility(index == 1 ? View.VISIBLE : View.GONE);
         containerReviews.setVisibility(index == 2 ? View.VISIBLE : View.GONE);
-        
+
         updateTabButton(btnTabIntro, index == 0);
         updateTabButton(btnTabCatalog, index == 1);
         updateTabButton(btnTabReviews, index == 2);
     }
 
     private void updateTabButton(Button btn, boolean active) {
+        // Always use ivory text color for tabs
+        btn.setTextColor(getResources().getColor(R.color.classical_ivory));
+        btn.setAlpha(1.0f);
+        // Fix for MaterialButton tint
+        btn.setBackgroundTintList(null);
+        
+        // Change background based on active state
         if (active) {
-            btn.setBackgroundResource(R.drawable.bg_classical_button);
-            btn.setTextColor(getResources().getColor(R.color.classical_ivory));
+            // Selected: Red
+            btn.setBackgroundResource(R.drawable.bg_classical_button_red);
         } else {
-            btn.setBackgroundResource(R.drawable.bg_classical_inner_border);
-            btn.setTextColor(getResources().getColor(R.color.classical_text_primary));
+            // Unselected: Blue
+            btn.setBackgroundResource(R.drawable.bg_classical_button_blue);
         }
     }
+
+
 
     private void updateFavoriteUI(boolean isFavorited) {
         ivFavorite.setImageResource(isFavorited ? android.R.drawable.btn_star_big_on : android.R.drawable.btn_star_big_off);
         ivFavorite.setColorFilter(isFavorited ? 0xFFFFC107 : 0xFF9E9E9E);
     }
 
-    private void fetchRemoteVideos() {
-        ApisApi apisApi = ApiClient.createService(ApisApi.class);
-        apisApi.getVideos().enqueue(new Callback<ApiResponse<List<String>>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<List<String>>> call, Response<ApiResponse<List<String>>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<String> videos = response.body().getData();
-                    if (videos != null && !videos.isEmpty()) {
-                        List<String> validVideos = new java.util.ArrayList<>();
-                        for (String v : videos) {
-                            if (v != null && !v.isEmpty()) {
-                                validVideos.add(v);
-                            }
-                        }
-                        if (!validVideos.isEmpty()) {
-                            remoteVideoUrls = validVideos;
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<List<String>>> call, Throwable t) {
-                // Ignore failure
-            }
-        });
-    }
+    // private void fetchRemoteVideos() { ... } // Removed
 }

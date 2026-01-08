@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/classical_red"
         android:paddingBottom="12dp"
-        android:paddingTop="20dp"
+        android:paddingTop="38dp"
         android:elevation="4dp"
         android:orientation="vertical">
         
@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Learning Mate"
+                android:text="让医学成为你的爱好!"
                 android:textColor="@color/classical_gold"
                 android:textSize="24sp"
                 android:fontFamily="serif"
@@ -52,7 +52,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_classical_search"
-            android:hint="探索古典艺术课程..."
+            android:hint="探索医学课程..."
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textSize="14sp"
@@ -112,12 +112,12 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             app:tint="@color/classical_red"
-                            android:src="@android:drawable/ic_menu_gallery"/>
+                            android:src="@mipmap/my_1"/>
                     </FrameLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="排毒美食"
+                        android:text="新手入门"
                         style="@style/ClassicalBodyText"
                         android:textStyle="bold"
                         android:textSize="13sp"
@@ -141,12 +141,12 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             app:tint="@color/classical_red"
-                            android:src="@android:drawable/ic_menu_info_details"/>
+                            android:src="@mipmap/my_2"/>
                     </FrameLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="医疗百科"
+                        android:text="初级课程"
                         style="@style/ClassicalBodyText"
                         android:textStyle="bold"
                         android:textSize="13sp"
@@ -170,12 +170,12 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             app:tint="@color/classical_red"
-                            android:src="@android:drawable/ic_menu_view"/>
+                            android:src="@mipmap/my_3"/>
                     </FrameLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="行为心理"
+                        android:text="中级课程"
                         style="@style/ClassicalBodyText"
                         android:textStyle="bold"
                         android:textSize="13sp"
@@ -199,12 +199,12 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             app:tint="@color/classical_red"
-                            android:src="@android:drawable/ic_menu_day"/>
+                            android:src="@mipmap/my_4"/>
                     </FrameLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="日常护理"
+                        android:text="高级课程"
                         style="@style/ClassicalBodyText"
                         android:textStyle="bold"
                         android:textSize="13sp"

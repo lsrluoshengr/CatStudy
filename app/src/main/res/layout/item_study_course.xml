@@ -92,11 +92,11 @@
 
     <Button
         android:id="@+id/btn_continue"
-        android:layout_width="80dp"
-        android:layout_height="36dp"
-        android:text="继续学习"
-        android:textSize="12sp"
-        android:backgroundTint="#FFC107"
-        android:textColor="#FFFFFF"/>
+        android:layout_width="88dp"
+        android:layout_height="42dp"
+        android:text="继续"
+        android:textSize="18sp"
+        android:backgroundTint="@color/classical_red"
+        android:textColor="@color/classical_gold"/>
 
 </LinearLayout>

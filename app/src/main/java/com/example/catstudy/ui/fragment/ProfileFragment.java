@@ -24,6 +24,7 @@ import com.example.catstudy.ui.activity.ShoppingCartActivity;
 import com.example.catstudy.ui.activity.FavoritesActivity;
 import com.example.catstudy.ui.activity.MyPostsActivity;
 import com.example.catstudy.ui.activity.EditProfileActivity;
+import com.example.catstudy.ui.activity.SettingsActivity;
 
 public class ProfileFragment extends Fragment {
 
@@ -71,10 +72,8 @@ public class ProfileFragment extends Fragment {
         entryOrders.setOnClickListener(v -> startActivity(new Intent(getContext(), OrderListActivity.class)));
         entryFavorites.setOnClickListener(v -> startActivity(new Intent(getContext(), FavoritesActivity.class)));
         entryFeedback.setOnClickListener(v -> Toast.makeText(getContext(), "正在联系客服...", Toast.LENGTH_SHORT).show());
-        entrySettings.setOnClickListener(v -> startActivity(new Intent(getContext(), EditProfileActivity.class)));
+        entrySettings.setOnClickListener(v -> startActivity(new Intent(getContext(), SettingsActivity.class)));
         
-        btnLogout.setOnClickListener(v -> logout());
-
         return view;
     }
 

@@ -46,17 +46,7 @@ public class SearchActivity extends BaseActivity {
 
         ivBack.setOnClickListener(v -> finish());
 
-        String prefill = getIntent().getStringExtra("prefill_keyword");
-        if (prefill != null && !prefill.isEmpty()) {
-            etInput.setText(prefill);
-        } else {
-            etInput.requestFocus();
-        }
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null && (prefill == null || prefill.isEmpty())) {
-            imm.showSoftInput(etInput, InputMethodManager.SHOW_IMPLICIT);
-        }
-
+        // 1. Setup Listener FIRST so setText triggers it
         etInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -81,5 +71,19 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {}
         });
+
+        // 2. Then handle prefill
+        String prefill = getIntent().getStringExtra("prefill_keyword");
+        if (prefill != null && !prefill.isEmpty()) {
+            etInput.setText(prefill);
+            etInput.setSelection(prefill.length()); // Move cursor to end
+        } else {
+            etInput.requestFocus();
+        }
+        
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null && (prefill == null || prefill.isEmpty())) {
+            imm.showSoftInput(etInput, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 }

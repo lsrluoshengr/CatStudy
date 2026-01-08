@@ -85,10 +85,11 @@ public class PostDetailActivity extends BaseActivity {
                 ImageView iv = new ImageView(this);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, 
-                        600); 
+                        ViewGroup.LayoutParams.WRAP_CONTENT); 
                 params.setMargins(0, 16, 0, 16);
                 iv.setLayoutParams(params);
-                iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                iv.setAdjustViewBounds(true);
+                iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 
                 Glide.with(this)
                         .load(url.trim())

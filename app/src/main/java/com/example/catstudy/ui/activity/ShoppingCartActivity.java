@@ -1,6 +1,7 @@
 package com.example.catstudy.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.example.catstudy.db.CartDao;
 import com.example.catstudy.db.OrderDao;
 import com.example.catstudy.db.UserDao;
 import com.example.catstudy.model.Course;
+import com.example.catstudy.network.ApiClient;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,15 +164,41 @@ public class ShoppingCartActivity extends BaseActivity {
             Course c = data.get(position);
             holder.tvTitle.setText(c.getTitle());
             holder.tvPrice.setText(c.getPrice() + "积分");
-            Glide.with(context)
-                    .load(c.getCoverUrl())
-                    .placeholder(R.mipmap.ic_launcher)
-                    .into(holder.ivCover);
+            
+            String coverUrl = c.getCoverUrl();
+            if (coverUrl != null && !coverUrl.isEmpty()) {
+                String fullUrl = coverUrl;
+                if (!coverUrl.startsWith("http") && !coverUrl.startsWith("content") && !coverUrl.startsWith("file")) {
+                     if (coverUrl.startsWith("/")) {
+                          fullUrl = ApiClient.BASE_URL + coverUrl.substring(1);
+                     } else {
+                          fullUrl = ApiClient.BASE_URL + coverUrl;
+                     }
+                }
+                Glide.with(context)
+                        .load(fullUrl)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .error(R.mipmap.ic_launcher)
+                        .into(holder.ivCover);
+            } else {
+                Glide.with(context)
+                        .load(R.mipmap.ic_launcher)
+                        .into(holder.ivCover);
+            }
+
             holder.cbItem.setOnCheckedChangeListener(null);
             holder.cbItem.setChecked(selected.get(position));
             holder.cbItem.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 selected.set(position, isChecked);
                 notifyTotalChanged();
+            });
+
+            // Add click listener to jump to CourseDetailActivity
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, CourseDetailActivity.class);
+                intent.putExtra("course_id", c.getCourseId());
+                intent.putExtra("course_title", c.getTitle());
+                context.startActivity(intent);
             });
         }
 
