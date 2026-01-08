@@ -18,6 +18,7 @@ import com.example.catstudy.model.Chapter;
 import com.example.catstudy.ui.activity.VideoPlayerActivity;
 import com.example.catstudy.network.ApiClient;
 import com.example.catstudy.network.ApisApi;
+import com.example.catstudy.network.ApiResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,11 +43,11 @@ public class CourseCatalogFragment extends Fragment {
         fetchRemoteVideos();
 
         ListView listView = new ListView(getContext());
-        
+
         // Get real chapter data from database
         ChapterDao chapterDao = new ChapterDao(getContext());
         List<Chapter> chapterList = chapterDao.getChaptersByCourseId(courseId);
-        
+
         // Convert Chapter objects to strings for ArrayAdapter
         List<String> chapterTitles = new ArrayList<>();
         for (Chapter chapter : chapterList) {
@@ -55,13 +56,13 @@ public class CourseCatalogFragment extends Fragment {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, chapterTitles);
         listView.setAdapter(adapter);
-        
+
         // Add click listener to play the selected chapter
         listView.setOnItemClickListener((parent, view, position, id) -> {
             if (position >= 0 && position < chapterList.size()) {
                 Chapter selectedChapter = chapterList.get(position);
                 Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-                
+
                 String videoUrl = selectedChapter.getVideoUrl();
                 if (remoteVideoUrls != null && !remoteVideoUrls.isEmpty()) {
                     videoUrl = remoteVideoUrls.get(position % remoteVideoUrls.size());
@@ -74,24 +75,49 @@ public class CourseCatalogFragment extends Fragment {
                 Toast.makeText(getContext(), "Invalid chapter", Toast.LENGTH_SHORT).show();
             }
         });
-        
+
         return listView;
     }
 
     private void fetchRemoteVideos() {
         ApisApi apisApi = ApiClient.createService(ApisApi.class);
-        apisApi.getVideos().enqueue(new Callback<List<String>>() {
+        apisApi.getVideos().enqueue(new Callback<ApiResponse<List<String>>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    remoteVideoUrls = response.body();
+            public void onResponse(Call<ApiResponse<List<String>>> call, Response<ApiResponse<List<String>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<String> videos = response.body().getData();
+                    if (videos != null && !videos.isEmpty()) {
+                        List<String> validVideos = new java.util.ArrayList<>();
+                        for (String v : videos) {
+                            if (v != null && !v.isEmpty()) {
+                                validVideos.add(v);
+                            }
+                        }
+                        if (!validVideos.isEmpty()) {
+                            remoteVideoUrls = validVideos;
+                            android.util.Log.d("CourseCatalog", "Remote videos fetched: " + validVideos.size());
+                        }
+                    } else {
+                        android.util.Log.w("CourseCatalog", "Remote videos list is empty");
+                    }
+                } else {
+                    android.util.Log.e("CourseCatalog", "Remote videos fetch failed: " + response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                // Ignore failure, keep using local placeholder
+            public void onFailure(Call<ApiResponse<List<String>>> call, Throwable t) {
+                android.util.Log.e("CourseCatalog", "Remote videos fetch error: " + t.getMessage());
             }
         });
     }
+
+//    @Override
+//    public void onFailure(Call<ApiResponse<List<String>>> call, Throwable t) {
+//        // Ignore failure, keep using local placeholder
+//    }
 }
+
+
+
+

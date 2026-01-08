@@ -13,8 +13,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "learning_mate.db";
     private static final int DATABASE_VERSION = 11;
     private static final String TAG = "DBHelper";
-    // 临时视频资源占位符（后续替换入口）
-    private static final String PLACEHOLDER_CHAPTER_VIDEO = "http://vjs.zencdn.net/v/oceans.mp4";
+
+
 
     // Table Names
     public static final String TABLE_USER = "table_user";
@@ -383,8 +383,8 @@ public class DBHelper extends SQLiteOpenHelper {
                         COL_CHAPTER_VIDEO_URL + ", " + COL_CHAPTER_DURATION + ", " + 
                         COL_CHAPTER_SORT_ORDER + ") VALUES (?, ?, ?, ?, ?)";
                 
-                // 所有章节视频统一使用临时占位资源
-                String chapterVideo = PLACEHOLDER_CHAPTER_VIDEO;
+                // Initialize with empty video URL, to be populated by API sync
+                String chapterVideo = "";
                 db.execSQL(insertChapterSql, new Object[]{
                     course.getCourseId(), // Use the same course ID
                     chapterTitle, 

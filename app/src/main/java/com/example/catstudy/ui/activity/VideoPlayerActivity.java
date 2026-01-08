@@ -39,6 +39,12 @@ public class VideoPlayerActivity extends AppCompatActivity {
         videoUrl = getIntent().getStringExtra(EXTRA_VIDEO_URL);
         chapterTitle = getIntent().getStringExtra(EXTRA_CHAPTER_TITLE);
 
+        if (videoUrl == null || videoUrl.isEmpty()) {
+            android.widget.Toast.makeText(this, "Video URL is missing", android.widget.Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         // Set chapter title
         tvChapterTitle.setText(chapterTitle);
 

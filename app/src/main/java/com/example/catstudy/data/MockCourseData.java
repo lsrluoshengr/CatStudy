@@ -27,15 +27,16 @@ public final class MockCourseData {
      */
     public static List<Course> getMockCourses() {
         List<Course> list = new ArrayList<>();
-        String video = "http://vjs.zencdn.net/v/oceans.mp4";
-        String cover1 = "https://static.zhiqiantong.cn/upload/mavendemo/course/20201020/1603179644258478434.jpg";
-        String cover2 = "https://img.zcool.cn/community/01f09e577b85450000018c1b4f4c2e.jpg@1280w_1l_2o_100sh.jpg";
-        String cover3 = "https://img.zcool.cn/community/019c29577b85470000012e7e78553f.jpg@1280w_1l_2o_100sh.jpg";
+        String video = "";
+        // Local/Server images will be synced by MainActivity
+        String cover1 = ""; 
+        String cover2 = "";
+        String cover3 = "";
 
         list.add(create(1001, "护理科研", cover1, video, 0,  "护理", 10, 0));
         list.add(create(1002, "内科护理学", cover2, video, 0,  "护理", 10, 0));
         list.add(create(1003, "护理伦理与法规", cover3, video, 0,  "护理", 10, 120));
-        list.add(create(1004, "传染病护理", cover1, video, 0,  "护理", 20, 0));
+        list.add(create(1004, "传染病护理", cover1, video, 10,  "护理", 20, 0));
         list.add(create(1005, "内科护理学", cover2, video, 0,  "护理", 10, 50));
         list.add(create(1006, "护理学导论", cover3, video, 0,  "护理", 15, 0));
         list.add(create(1007, "基础护理学", cover1, video, 0,  "护理", 10, 30));

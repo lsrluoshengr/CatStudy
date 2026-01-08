@@ -1,6 +1,8 @@
 package com.example.catstudy.ui.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.OptIn;
 import androidx.media3.common.util.UnstableApi;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.catstudy.R;
 import com.example.catstudy.model.Course;
 import com.example.catstudy.db.CourseDao;
@@ -28,6 +34,10 @@ import com.example.catstudy.model.Chapter;
 import java.util.ArrayList;
 
 import com.example.catstudy.util.CourseCoverUtils;
+
+import com.example.catstudy.network.ApiClient;
+
+import org.jetbrains.annotations.Nullable;
 
 @OptIn(markerClass = UnstableApi.class)
 public class StudyCourseAdapter extends RecyclerView.Adapter<StudyCourseAdapter.ViewHolder> {
@@ -67,11 +77,47 @@ public class StudyCourseAdapter extends RecyclerView.Adapter<StudyCourseAdapter.
         
         int coverResId = CourseCoverUtils.getCoverResId(context, course.getCourseId());
         holder.ivCover.setContentDescription(course.getTitle()); // 添加 Alt 文本描述
-        Glide.with(context)
-             .load(coverResId)
-             .placeholder(R.mipmap.ic_launcher)
-             .centerCrop()
-             .into(holder.ivCover);
+        
+        String coverUrl = course.getCoverUrl();
+        if (coverUrl != null && !coverUrl.isEmpty()) {
+             String tempUrl = coverUrl;
+             if (!coverUrl.startsWith("http") && !coverUrl.startsWith("content") && !coverUrl.startsWith("file")) {
+                 if (coverUrl.startsWith("/")) {
+                      tempUrl = ApiClient.BASE_URL + coverUrl.substring(1);
+                 } else {
+                      tempUrl = ApiClient.BASE_URL + coverUrl;
+                 }
+             }
+             final String fullUrl = tempUrl;
+             Glide.with(context)
+                 .load(fullUrl)
+                 .placeholder(R.mipmap.course_detail)
+                 .centerCrop()
+                 .error(coverResId != 0 ? coverResId : R.mipmap.course_detail)
+                 .listener(new RequestListener<Drawable>() { // 添加监听器
+                      @Override
+                      public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                          // 这里会打印具体的错误原因到 Logcat
+                          Log.e("GLIDE_ERROR", "StudyCourse加载失败: " + fullUrl, e);
+                          if (e != null) {
+                              e.logRootCauses("GLIDE_ERROR");
+                          }
+                          return false; // 返回 false 让 Glide 继续处理 error 占位图
+                      }
+
+                      @Override
+                      public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                          return false;
+                      }
+                  })
+                 .into(holder.ivCover);
+        } else {
+            Glide.with(context)
+                 .load(coverResId)
+                 .placeholder(R.mipmap.course_detail)
+                 .centerCrop()
+                 .into(holder.ivCover);
+        }
         
         SharedPreferences sp = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         String lastTitle = sp.getString("last_chapter_title_" + course.getCourseId(), "");

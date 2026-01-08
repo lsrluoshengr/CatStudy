@@ -34,6 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import java.util.List;
+import com.example.catstudy.network.ApiResponse;
 
 @OptIn(markerClass = UnstableApi.class)
 public class CourseDetailActivity extends BaseActivity {
@@ -45,8 +46,8 @@ public class CourseDetailActivity extends BaseActivity {
     private ChapterDao chapterDao;
     private Course course;
     private ImageView ivCover;
-    private ImageView btnPlay;
-    private static final String VIDEO_URL = "http://vjs.zencdn.net/v/oceans.mp4";
+
+
     private ImageView ivFavorite;
     private RecyclerView rvReviews;
     private ReviewAdapter reviewAdapter;
@@ -198,13 +199,32 @@ public class CourseDetailActivity extends BaseActivity {
 
     // Set up cover image
     private void setupCover() {
-        // Load cover image using Glide (assuming Glide is already set up in the project)
+        // Load cover image using Glide
         int coverResId = CourseCoverUtils.getCoverResId(this, course.getCourseId());
-        ivCover.setContentDescription(course.getTitle()); // 添加 Alt 文本描述
-        Glide.with(this)
-             .load(coverResId)
-             .placeholder(R.mipmap.ic_launcher)
-             .into(ivCover);
+        ivCover.setContentDescription(course.getTitle()); 
+        
+        String coverUrl = course.getCoverUrl();
+        if (coverUrl != null && !coverUrl.isEmpty()) {
+             String fullUrl = coverUrl;
+             if (!coverUrl.startsWith("http") && !coverUrl.startsWith("content") && !coverUrl.startsWith("file")) {
+                 if (coverUrl.startsWith("/")) {
+                      fullUrl = ApiClient.BASE_URL + coverUrl.substring(1);
+                 } else {
+                      fullUrl = ApiClient.BASE_URL + coverUrl;
+                 }
+             }
+             Glide.with(this)
+                  .load(fullUrl)
+                  .placeholder(R.mipmap.ic_launcher)
+                  .error(coverResId != 0 ? coverResId : R.mipmap.ic_launcher)
+                  .into(ivCover);
+        } else {
+            Glide.with(this)
+                 .load(coverResId)
+                 .placeholder(R.mipmap.ic_launcher)
+                 .error(R.mipmap.ic_launcher)
+                 .into(ivCover);
+        }
     }
 
     // Add Glide import if needed
@@ -236,16 +256,27 @@ public class CourseDetailActivity extends BaseActivity {
 
     private void fetchRemoteVideos() {
         ApisApi apisApi = ApiClient.createService(ApisApi.class);
-        apisApi.getVideos().enqueue(new Callback<List<String>>() {
+        apisApi.getVideos().enqueue(new Callback<ApiResponse<List<String>>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    remoteVideoUrls = response.body();
+            public void onResponse(Call<ApiResponse<List<String>>> call, Response<ApiResponse<List<String>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<String> videos = response.body().getData();
+                    if (videos != null && !videos.isEmpty()) {
+                        List<String> validVideos = new java.util.ArrayList<>();
+                        for (String v : videos) {
+                            if (v != null && !v.isEmpty()) {
+                                validVideos.add(v);
+                            }
+                        }
+                        if (!validVideos.isEmpty()) {
+                            remoteVideoUrls = validVideos;
+                        }
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<List<String>>> call, Throwable t) {
                 // Ignore failure
             }
         });

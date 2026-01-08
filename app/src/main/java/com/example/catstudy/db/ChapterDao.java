@@ -1,5 +1,6 @@
 package com.example.catstudy.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,6 +14,38 @@ public class ChapterDao {
 
     public ChapterDao(Context context) {
         dbHelper = new DBHelper(context);
+    }
+
+    public void updateAllChapterVideos(List<String> videoUrls) {
+        if (videoUrls == null || videoUrls.isEmpty()) return;
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            // Get all chapter IDs
+            Cursor cursor = db.query(DBHelper.TABLE_CHAPTER, new String[]{DBHelper.COL_CHAPTER_ID}, null, null, null, null, null);
+            List<Integer> ids = new ArrayList<>();
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    ids.add(cursor.getInt(0));
+                }
+                cursor.close();
+            }
+
+            // Update each
+            for (int i = 0; i < ids.size(); i++) {
+                String url = videoUrls.get(i % videoUrls.size());
+                ContentValues values = new ContentValues();
+                values.put(DBHelper.COL_CHAPTER_VIDEO_URL, url);
+                db.update(DBHelper.TABLE_CHAPTER, values, DBHelper.COL_CHAPTER_ID + "=?", new String[]{String.valueOf(ids.get(i))});
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
     }
 
     public List<Chapter> getChaptersByCourseId(int courseId) {

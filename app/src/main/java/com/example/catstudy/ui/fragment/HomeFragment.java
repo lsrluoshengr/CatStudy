@@ -33,6 +33,7 @@ import com.example.catstudy.ui.activity.SearchActivity;
 import com.example.catstudy.ui.activity.CourseDetailActivity;
 import com.example.catstudy.network.ApiClient;
 import com.example.catstudy.network.ApisApi;
+import com.example.catstudy.network.ApiResponse;
 import com.example.catstudy.db.CheckInDao;
 import com.example.catstudy.db.UserDao;
 import com.example.catstudy.model.User;
@@ -52,6 +53,7 @@ public class HomeFragment extends Fragment {
     private CourseAdapter courseAdapter;
     private CourseDao courseDao;
     private HomeViewModel viewModel;
+    private boolean hasRemoteBanner = false;
     
     @Nullable
     @Override
@@ -101,25 +103,25 @@ public class HomeFragment extends Fragment {
 
         catFood.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SearchActivity.class);
-            intent.putExtra("prefill_keyword", "排毒美食");
+            intent.putExtra("prefill_keyword", "美食");
             startActivity(intent);
             if (getActivity() != null) getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
         catMedical.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SearchActivity.class);
-            intent.putExtra("prefill_keyword", "医疗百科");
+            intent.putExtra("prefill_keyword", "百科");
             startActivity(intent);
             if (getActivity() != null) getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
         catBehavior.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SearchActivity.class);
-            intent.putExtra("prefill_keyword", "行为心理");
+            intent.putExtra("prefill_keyword", "心理");
             startActivity(intent);
             if (getActivity() != null) getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
         catDaily.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SearchActivity.class);
-            intent.putExtra("prefill_keyword", "日常护理");
+            intent.putExtra("prefill_keyword", "护理");
             startActivity(intent);
             if (getActivity() != null) getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
@@ -146,23 +148,40 @@ public class HomeFragment extends Fragment {
 
     private void fetchRemoteBannerImages() {
         ApisApi api = ApiClient.createService(ApisApi.class);
-        api.getImages().enqueue(new Callback<List<String>>() {
+        api.getImages().enqueue(new Callback<ApiResponse<List<String>>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                List<String> images = response.body();
-                if (images == null || images.isEmpty()) return;
-                banner.setAdapter(new RemoteImageAdapter(images))
-                      .setIndicator(new CircleIndicator(getContext()))
-                      .start();
+            public void onResponse(Call<ApiResponse<List<String>>> call, Response<ApiResponse<List<String>>> response) {
+                if (getContext() == null || !isAdded()) return;
+
+                if (response.isSuccessful() && response.body() != null) {
+                    List<String> images = response.body().getData();
+                    if (images != null && !images.isEmpty()) {
+                         List<String> validImages = new java.util.ArrayList<>();
+                         for (String img : images) {
+                             if (img != null && !img.isEmpty()) {
+                                 validImages.add(img);
+                                 // Test: Print image link to console
+                                 System.out.println("Fetched Image URL: " + img);
+                                 android.util.Log.d("HomeFragment", "Fetched Image URL: " + img);
+                             }
+                         }
+                         if (!validImages.isEmpty()) {
+                             banner.setAdapter(new RemoteImageAdapter(validImages))
+                                   .setIndicator(new CircleIndicator(getContext()))
+                                   .start();
+                         }
+                    }
+                }
             }
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) { }
+            public void onFailure(Call<ApiResponse<List<String>>> call, Throwable t) { }
         });
     }
 
 
 
     private void updateBannerData(List<Course> courses) {
+        if (hasRemoteBanner) return;
         if (courses == null || courses.isEmpty()) return;
 
         // Pick up to 3 courses

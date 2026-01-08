@@ -59,6 +59,37 @@ public class CourseDao {
         return courseList;
     }
 
+    public void updateAllCourseCovers(List<String> imageUrls) {
+        if (imageUrls == null || imageUrls.isEmpty()) return;
+        
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.beginTransaction(); // Start transaction for performance and consistency
+        try {
+            Cursor cursor = db.query(DBHelper.TABLE_COURSE, new String[]{DBHelper.COL_COURSE_ID}, null, null, null, null, null);
+            
+            if (cursor != null && cursor.moveToFirst()) {
+                int index = 0;
+                do {
+                    int courseId = cursor.getInt(cursor.getColumnIndexOrThrow(DBHelper.COL_COURSE_ID));
+                    String imageUrl = imageUrls.get(index % imageUrls.size());
+                    
+                    ContentValues values = new ContentValues();
+                    values.put(DBHelper.COL_COVER_URL, imageUrl);
+                    db.update(DBHelper.TABLE_COURSE, values, DBHelper.COL_COURSE_ID + "=?", new String[]{String.valueOf(courseId)});
+                    
+                    index++;
+                } while (cursor.moveToNext());
+                cursor.close();
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
     public void updateProgress(int courseId, int progress) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
