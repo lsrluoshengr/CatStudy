@@ -16,4 +16,5 @@
     
     <!-- Border Colors -->
     <color name="classical_border_gold">#C5A028</color>
+    <color name="classical_green">#2E7D32</color>
 </resources>

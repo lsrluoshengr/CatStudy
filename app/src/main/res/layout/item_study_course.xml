@@ -3,100 +3,114 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp"
-    android:gravity="center_vertical"
-    android:background="?android:attr/selectableItemBackground">
+    android:orientation="vertical">
 
-    <!-- Course Image -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="100dp"
-        android:layout_height="75dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="0dp">
-        <ImageView
-            android:id="@+id/iv_course_cover"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"/>
-    </androidx.cardview.widget.CardView>
-
-    <!-- Course Info -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="8dp">
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="?android:attr/selectableItemBackground">
 
-        <TextView
-            android:id="@+id/tv_course_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Course Title"
-            android:textSize="16sp"
-            android:textColor="#333333"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"/>
+        <!-- Course Image -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="100dp"
+            android:layout_height="75dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp">
+            <ImageView
+                android:id="@+id/iv_course_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher"/>
+        </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/tv_course_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Course Subtitle"
-            android:textSize="12sp"
-            android:textColor="#666666"
-            android:layout_marginTop="4dp"
-            android:maxLines="1"
-            android:ellipsize="end"/>
-
+        <!-- Course Info -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="8dp">
-
-            <ProgressBar
-                android:id="@+id/pb_progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="6dp"
-                android:layout_weight="1"
-                android:progressDrawable="@drawable/progress_bar_custom"
-                android:max="100"
-                android:progress="75"/>
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp">
 
             <TextView
-                android:id="@+id/tv_progress_text"
+                android:id="@+id/tv_course_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="75%"
-                android:textSize="10sp"
-                android:textColor="#999999"
-                android:layout_marginStart="8dp"/>
+                android:text="Course Title"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/tv_course_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Course Subtitle"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:layout_marginTop="4dp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
+
+                <ProgressBar
+                    android:id="@+id/pb_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_weight="1"
+                    android:progressDrawable="@drawable/progress_bar_custom"
+                    android:max="100"
+                    android:progress="75"/>
+
+                <TextView
+                    android:id="@+id/tv_progress_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="75%"
+                    android:textSize="10sp"
+                    android:textColor="#999999"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+            
+            <TextView
+                android:id="@+id/tv_last_chapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="最近学习："
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:layout_marginTop="8dp"/>
         </LinearLayout>
-        
-        <TextView
-            android:id="@+id/tv_last_chapter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="最近学习："
-            android:textSize="12sp"
-            android:textColor="#666666"
-            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/btn_continue"
+            android:layout_width="88dp"
+            android:layout_height="42dp"
+            android:text="继续"
+            android:textSize="18sp"
+            android:backgroundTint="@color/classical_red"
+            android:textColor="@color/classical_gold"/>
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_continue"
-        android:layout_width="88dp"
-        android:layout_height="42dp"
-        android:text="继续"
-        android:textSize="18sp"
-        android:backgroundTint="@color/classical_red"
-        android:textColor="@color/classical_gold"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C5A028"
+        android:alpha="0.3"
+        android:layout_marginHorizontal="16dp"/>
 
 </LinearLayout>

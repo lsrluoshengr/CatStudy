@@ -20,7 +20,7 @@ import com.example.catstudy.ui.adapter.CourseAdapter;
 import com.example.catstudy.ui.adapter.ImageAdapter;
 import com.example.catstudy.ui.adapter.RemoteImageAdapter;
 import com.example.catstudy.ui.viewmodel.HomeViewModel;
-import com.example.catstudy.data.MockCourseData;
+
 import com.youth.banner.Banner;
 import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.listener.OnBannerListener;

@@ -75,16 +75,10 @@ public class StudyFragment extends Fragment {
                  .into(ivBanner);
         }
         
-        tabSelf = view.findViewById(R.id.tab_self_selected);
-        tvTabSelf = view.findViewById(R.id.tv_tab_self);
-        indicatorSelf = view.findViewById(R.id.indicator_tab_self);
-        
         btnSignin = view.findViewById(R.id.btn_signin);
         if (btnSignin != null) {
             btnSignin.setOnClickListener(v -> handleCheckIn());
         }
-            
-        tabSelf.setOnClickListener(v -> switchTab(0));
     }
     
     private void handleCheckIn() {
@@ -170,21 +164,14 @@ public class StudyFragment extends Fragment {
 
     private void initData() {
         allCourses = courseDao.getAllCourses();
-        switchTab(0);
+        updateList(allCourses);
         updateCheckInUI();
     }
 
-    private List<Course> generateMockCourses() {
-        return com.example.catstudy.data.MockCourseData.getMockCourses();
-    }
-    
-    private void switchTab(int index) {
-        tvTabSelf.setTextColor(Color.parseColor("#4CAF50")); // Green
-        indicatorSelf.setVisibility(View.VISIBLE);
-        updateList(allCourses);
-    }
     
     private void updateList(List<Course> list) {
+        if (getContext() == null || recyclerView == null) return;
+        if (list == null) list = new ArrayList<>();
         adapter = new StudyCourseAdapter(getContext(), list);
         recyclerView.setAdapter(adapter);
     }
