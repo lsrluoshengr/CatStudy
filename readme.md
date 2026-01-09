@@ -2,6 +2,11 @@
 
 ## 1. 项目概述
 **CatStudy** 是一款基于 Android 平台的在线学习与社区交流应用。它集成了课程学习、视频播放、社区互动、AI 智能助手以及个人成长体系（积分、签到）等功能，旨在为用户提供一个全面、便捷的学习环境。项目采用古典雅致的 UI 风格（象牙白、深红、金色），提供优质的视觉体验。
+ps:
+gitee仓库:https://gitee.com/luoshengr/CatStudy
+后端api服务器代码: https://gitee.com/luoshengr/catapis 
+github镜像仓库: https://github.com/lsrluoshengr/CatStudy
+后端api服务器代码:https://github.com/lsrluoshengr/catapis
 
 ## 2. 功能模块详解
 
